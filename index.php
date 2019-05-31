@@ -135,7 +135,7 @@ bottom:0;
 width:1px;
 left:50vw;
 padding:10px 0;
-background:rgba(255,255,255,0.12);
+background:rgba(0,0,0,0.8);
 z-index:20;
 }
 .marker-active {
@@ -195,10 +195,10 @@ var State = {
 
 window.onscroll = function (e) {
     var y = window.pageYOffset;
-
     for (var i = 0; i < slide_count; ++i) {
         var slide_el_bound = get('slide_'+i).getBoundingClientRect();
-        if (slide_el_bound.top > -window.innerHeight/2 && slide_el_bound.bottom < window.innerHeight* 1.5 ) {
+        var slide_active = slide_el_bound.top > -window.innerHeight/2 && slide_el_bound.bottom < window.innerHeight* 1.5;
+        if (slide_active) {
             get('sidebar__slide_'+ i).classList.add("active");
             get('marker_'+ i).classList.add("marker-active");
         } else {
@@ -208,18 +208,16 @@ window.onscroll = function (e) {
     }
 }
 
-
-
 var end = Date.now();
 var start = end;
-end += 1000*60 * 20;
+var total_minutes = 1;
+end += 1000*60 * total_minutes;
 var total = end - start;
 setInterval(function() {
     var now = Date.now();
     var delta = end - now; // milliseconds elapsed since start
     var passed = now- start;
     var width = ((passed / total) * 100);
-    console.log(passed, total, width);
     get('progress').style.width = width + "vw";
     var minutes =  Math.floor((delta / 1000)/60)
     var seconds =  Math.floor((delta / 1000)%60)
